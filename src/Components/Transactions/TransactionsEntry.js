@@ -18,13 +18,6 @@ export default function TransactionsEntry () {
 
     const history = useHistory();
 
-    useEffect(() => {
-        if(userData === ""){
-    
-            history.push('/');
-        }
-    }, [userData])
-
     function send (e) {
 
         e.preventDefault();
@@ -46,7 +39,7 @@ export default function TransactionsEntry () {
         }
         setIsLoading(true);
 
-        sendTransictionsEntryRequest(userData, body)
+        sendTransictionsEntryRequest(userData.token, body)
             .then((res) => {
                 setIsLoading(false);
                 history.push('/transactions')

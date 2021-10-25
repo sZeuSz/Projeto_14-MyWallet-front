@@ -17,7 +17,6 @@ export default function Transactions () {
 
     useEffect(() => {
         if(userData) {
-
             renderTransactions();
         }
         else if(userData === ""){
@@ -28,7 +27,7 @@ export default function Transactions () {
 
     function renderTransactions () {
 
-        getTransictionsRequest(userData)
+        getTransictionsRequest(userData.token)
             .then((res) => {
 
                 if(typeof(res.data) === 'string'){
@@ -65,7 +64,7 @@ export default function Transactions () {
     }
 
     function logout() {
-        sendLogoutRequest(userData)
+        sendLogoutRequest(userData.token)
         setUserData("");
         localStorage.removeItem("userData");
         history.push("/");
