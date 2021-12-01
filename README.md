@@ -30,7 +30,7 @@ MyWallet é uma carteira digital com o objetivo de observar e controlar suas fin
 
 ### Teste:
 
-Esse projeto foi testado usando cypress para o front-end, veja abaixo o examplo do teste rodando:
+Esse projeto foi testado usando cypress para o front-end, veja abaixo o exemplo do teste rodando:
 
 <img src="./public/CypressExample.gif" width="100%">
 
