@@ -28,6 +28,12 @@ MyWallet é uma carteira digital com o objetivo de observar e controlar suas fin
   - React Loader Spinner
   - Axios
 
+### Teste:
+
+Esse projeto foi testado usando cypress para o front-end, veja abaixo o examplo do teste rodando:
+
+<img src="./public/CypressExample.gif" width="100%">
+
 ### Demo:
 
 https://mywallet-one.vercel.app
