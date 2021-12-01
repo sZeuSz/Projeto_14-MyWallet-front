@@ -6,7 +6,7 @@ MyWallet é uma carteira digital com o objetivo de observar e controlar suas fin
 
 ### Clone este repositório ou faça download do arquivo zip :
 
-`git clone https://github.com/patricia270/mywallet-front.git`
+`git clone https://github.com/sZeuSz/Projeto_14-MyWallet-front.git`
 
 ### No repositório do projeto na sua máquina, para instalar todas as dependências utilizadas, digite:
 
