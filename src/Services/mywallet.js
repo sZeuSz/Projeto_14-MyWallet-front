@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = 'http://localhost:4000/mywallet'
+const BASE_URL = 'https://mywalletbd.herokuapp.com/mywallet'
 
 function createConfig (token){
     return {

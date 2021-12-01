@@ -3,141 +3,79 @@ import Input from "../../SharedStyle/Input";
 import Form from "../../SharedStyle/Form";
 import ButtonSubmit from "../../SharedStyle/ButtonSubmit";
 import ContainerPage from "../../SharedStyle/Container";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { sendSignUpRequest } from "../../Services/mywallet";
-import Swal from "sweetalert2";
-
+import { yupResolver } from "@hookform/resolvers/yup";
+import { LoadSpin } from "../../Loadings/Loading";
+import { useForm } from "react-hook-form";
+import { SignUpSchema } from "../../Schemas/SignUpSchema";
+import AlertContext from "../../Contexts/AlertContext";
 export default function SignUpPage () {
+    const [isLoading, setIsLoading] = useState(false);
+    const { setType, setMessage, setShowAlert } = useContext(AlertContext);
+    const history = useHistory();
 
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [isLoading, setIsLoading] = useState("");
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        resolver: yupResolver(SignUpSchema)
+    });
 
-    let history = useHistory();
-
-    function signUp (e) {
-
-        e.preventDefault();
+    function signUp (data) {
 
         const body = {
-            email,
-            name,
-            password,
-            confirmPassword
+            email: data.email,
+            name: data.name,
+            password: data.password,
+            confirmPassword: data.confirmPassword,
         }
-
+        console.log(body)
         setIsLoading(true);
 
-        if(password !== confirmPassword){
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Wrong password confirmation step.',
-                showConfirmButton: false,
-                timer: 2000
-            })
-
-            setIsLoading(false);
-
-            return;
-        }
         sendSignUpRequest (body)
             .then((res) => {
                 setIsLoading(false);
 
-                Swal.fire({
-                    icon: 'success',
-                    text: 'Your account was created successfully, login and join us :D.',
-                    showConfirmButton: false,
-                    timer: 2500
-                })
-
+                setType('Sucesso');
+                setMessage('Conta criada com sucesso, faça login para continuar')
+                setShowAlert(true);
+                
                 history.push('/');
             }) 
             .catch((error) => {
-
+                console.log(error)
+                console.log(error.response.status)
                 setIsLoading(false);
-
-                if(error.response.status === 400){
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Invalid data, please fill in the fields correctly.',
-                        showConfirmButton: false,
-                        timer: 2000
-                    })
-
-                    return;
+                if (error.response.status === 409) {
+                    setType('Erro');
+                    setMessage('Email já está sendo usado por outro usuário :(');
                 }
-                else if(error.response.status === 401){
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Email already used, try another one.',
-                        showConfirmButton: false,
-                        timer: 2000
-                    })
-
-                    return;
+                else {
+                    setType('Erro');
+                    setMessage('Servidor está bugado no momento :(');
                 }
 
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Something went wrong!',
-                    showConfirmButton: false,
-                    timer: 2000
-                })
-
+                setShowAlert(true);
             })
 
     }
     return (
         <ContainerPage>
-            <Form onSubmit={signUp}>
+            <Form onSubmit={handleSubmit(signUp)}>
                 <h1>MyWallet</h1>
-                <Input 
-                    placeholder = "Name"
-                    type = "text"
-                    value = {name}
-                    onChange = {(e) => setName(e.target.value)}
-                    disabled = {isLoading}
-                    minLength = "4"
-                    required
-                />
-                <Input 
-                    placeholder = "E-mail"
-                    type = "email"
-                    value = {email}
-                    onChange = { e => setEmail(e.target.value)}
-                    disabled = {isLoading}
-                    pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,10}$"
-                    required
-                />
-                <Input 
-                    placeholder = "Senha"
-                    type = "password"
-                    value = {password}
-                    onChange = { e => setPassword(e.target.value)}
-                    disabled = {isLoading}
-                    minLength = "4"
-                    required  
-                />
-                <Input 
-                    placeholder = "Confirme a senha"
-                    type = "password"
-                    value = {confirmPassword}
-                    onChange = { e => setConfirmPassword(e.target.value)}
-                    disabled = {isLoading}
-                    minLength = "4"
-                    required  
-                />
+                <Input placeholder='nome' type='text' {...register('name')} />
+                <span>{errors.name?.message}</span>
 
-                <ButtonSubmit>Cadastrar</ButtonSubmit>
+                <Input placeholder='email' type='email' {...register('email')} />
+                <span>{errors.email?.message}</span>
 
-                <span onClick={() => history.push('/')}>Já tem uma conta? Entre agora!</span>
+                <Input placeholder='senha' type='password' {...register('password')} />
+                <span>{errors.password?.message}</span>
+
+                <Input placeholder='confirme a senha' type='password' {...register('confirmPassword')} />
+                <span>{errors.confirmPassword?.message}</span>
+
+                <ButtonSubmit type='submit'>{isLoading? LoadSpin : 'Cadastrar'}</ButtonSubmit>
+
+                <p onClick={() => history.push('/')}>Já tem uma conta? Entre agora!</p>
             </Form>
         </ContainerPage>
     )

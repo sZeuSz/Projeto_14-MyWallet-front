@@ -5,20 +5,14 @@ const Input = styled.input`
     height: 60px;
     border: none;
     border-radius: 5px;
-    font-family: 'Raleway', sans-serif;
     font-weight: 400;
     font-style: normal;
     font-size: 20px;
     margin: 10px 0px;
-    
+    padding-left: 8px;
 
     &::placeholder{
         color: black;
-        padding-left: 4px;
-    }
-
-    &:focus{
-        padding-left: 4px;
     }
 `;
 

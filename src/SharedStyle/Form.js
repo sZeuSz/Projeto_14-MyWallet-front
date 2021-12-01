@@ -9,21 +9,38 @@ const Form = styled.form`
     height: 100%;
     background-color: #8C11BE;
 
-    span {
-        font-family: 'Raleway', sans-serif;
+    h1 {
+        font-family: 'Saira Stencil One', cursive;
         font-weight: 700;
         font-style: normal;
-        font-size: 15px;
+        font-size: 32px;
         color: #FFFFFF;
         margin: 20px 0px;
     }
-    h1{
-        font-family: 'Saira Stencil One', cursive;
-        font-weight: 400;
+    
+    span{
+        color: red;
+        font-weight: 700;
         font-style: normal;
-        font-size: 32px;
-        color: white;
-        margin-bottom: 20px;
+        font-size: 15px;
+        background-color: #ffffff;
+        width: auto;
+        height: auto;
+        text-align: center;
+        border-radius: 5px;
+    }
+
+    p{
+        margin-top: 20px;
+        font-weight: 700;
+        font-style: normal;
+        font-size: 15px;
+        cursor:pointer;
+        color: #ffffff;
+
+        &:hover{
+            opacity:0.5;
+        }
     }
 `;
 
